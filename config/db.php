@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$dbname = "food_recipes_db";
+$dbname = "food_recipe_db";
 $username = "root";
 $password = "";
 
