@@ -1,73 +1,90 @@
 <?php 
+session_start();
 require "../config/db.php";
+require "../includes/csrf.php";
+
+// Auth guard — must be logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
 require "../includes/header.php";
 
 $message = '';
 $messageType = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $title = trim($_POST['title']);
-    $cuisine = trim($_POST['cuisine']);
-    $difficulty = $_POST['difficulty'];
-    $instructions = trim($_POST['instructions']);
-    $ingredients = array_filter(array_map('trim', explode(",", $_POST['ingredients'])));
-
-    // Validation
-    if (empty($title) || empty($cuisine) || empty($difficulty) || empty($instructions) || empty($ingredients)) {
-        $message = "All fields are required!";
+    // Verify CSRF token
+    if (!validateCsrfToken($_POST['csrf_token'] ?? '')) {
+        $message = "Invalid security token. Please try again.";
         $messageType = "error";
     } else {
-        try {
-            // Handle image upload
-            $imageName = '';
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $imageName = time() . '_' . basename($_FILES['image']['name']);
-                $targetPath = "../uploads/recipe_images/" . $imageName;
-                
-                // Validate image type
-                $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-                $imageType = $_FILES['image']['type'];
-                
-                if (in_array($imageType, $allowedTypes)) {
-                    if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                        throw new Exception("Failed to upload image");
-                    }
-                } else {
-                    throw new Exception("Only JPG, PNG, and GIF images are allowed");
-                }
-            }
+        $title = trim($_POST['title']);
+        $cuisine = trim($_POST['cuisine']);
+        $difficulty = $_POST['difficulty'];
+        $instructions = trim($_POST['instructions']);
+        $ingredients = array_filter(array_map('trim', explode(",", $_POST['ingredients'])));
 
-            // Insert recipe
-            $stmt = $pdo->prepare(
-                "INSERT INTO recipes (title, cuisine, difficulty, instructions, image)
-                 VALUES (?, ?, ?, ?, ?)"
-            );
-            $stmt->execute([$title, $cuisine, $difficulty, $instructions, $imageName]);
-
-            $recipeId = $pdo->lastInsertId();
-
-            // Insert ingredients
-            $ingStmt = $pdo->prepare(
-                "INSERT INTO ingredients (recipe_id, ingredient_name) VALUES (?, ?)"
-            );
-            
-            foreach ($ingredients as $ingredient) {
-                if (!empty($ingredient)) {
-                    $ingStmt->execute([$recipeId, $ingredient]);
-                }
-            }
-
-            $message = "Recipe added successfully! 🎉";
-            $messageType = "success";
-            
-            // Clear form after success
-            $_POST = [];
-        } catch (Exception $e) {
-            $message = "Error: " . $e->getMessage();
+        // Validation
+        if (empty($title) || empty($cuisine) || empty($difficulty) || empty($instructions) || empty($ingredients)) {
+            $message = "All fields are required!";
             $messageType = "error";
+        } else {
+            try {
+                // Handle image upload
+                $imageName = '';
+                if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                    $imageName = time() . '_' . basename($_FILES['image']['name']);
+                    $targetPath = "../uploads/recipe_images/" . $imageName;
+                    
+                    // Validate image type
+                    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                    $imageType = $_FILES['image']['type'];
+                    
+                    if (in_array($imageType, $allowedTypes)) {
+                        if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                            throw new Exception("Failed to upload image");
+                        }
+                    } else {
+                        throw new Exception("Only JPG, PNG, and GIF images are allowed");
+                    }
+                }
+
+                // Insert recipe (now includes user_id)
+                $stmt = $pdo->prepare(
+                    "INSERT INTO recipes (title, cuisine, difficulty, instructions, image, user_id)
+                     VALUES (?, ?, ?, ?, ?, ?)"
+                );
+                $stmt->execute([$title, $cuisine, $difficulty, $instructions, $imageName, $_SESSION['user_id']]);
+
+                $recipeId = $pdo->lastInsertId();
+
+                // Insert ingredients
+                $ingStmt = $pdo->prepare(
+                    "INSERT INTO ingredients (recipe_id, ingredient_name) VALUES (?, ?)"
+                );
+                
+                foreach ($ingredients as $ingredient) {
+                    if (!empty($ingredient)) {
+                        $ingStmt->execute([$recipeId, $ingredient]);
+                    }
+                }
+
+                $message = "Recipe added successfully! 🎉";
+                $messageType = "success";
+                
+                // Clear form after success
+                $_POST = [];
+            } catch (Exception $e) {
+                $message = "Error: " . $e->getMessage();
+                $messageType = "error";
+            }
         }
     }
 }
+
+$csrfToken = getCsrfToken();
 ?>
 
 <h2>➕ Add New Recipe</h2>
@@ -82,6 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php endif; ?>
 
 <form method="POST" enctype="multipart/form-data" class="search-form">
+    <?= csrfTokenField() ?>
     <div class="search-grid">
         <div class="form-group">
             <label for="title">Recipe Title *</label>

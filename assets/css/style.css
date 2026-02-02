@@ -1,7 +1,944 @@
+/* ============================================
+   Clean Black & White Recipe App Styles
+   Minimalist design with black buttons and white background
+   ============================================ */
+
+/* === BASE STYLES === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --black: #000000;
+    --dark-gray: #333333;
+    --medium-gray: #666666;
+    --light-gray: #cccccc;
+    --extra-light-gray: #f5f5f5;
+    --white: #ffffff;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
+    --radius: 8px;
+    --radius-sm: 4px;
+    --transition: all 0.3s ease;
+}
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--white);
+    min-height: 100vh;
     padding: 20px;
+    color: var(--dark-gray);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 40px;
+    border: 1px solid var(--light-gray);
+}
+
+/* === HEADER STYLES === */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid var(--light-gray);
+}
+
+header h1 {
+    color: var(--black);
+    font-size: 3em;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+nav a,
+nav .user-info {
+    text-decoration: none;
+    color: var(--white);
+    background: var(--black);
+    padding: 12px 28px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 0.95em;
+    display: inline-block;
+}
+
+nav a:hover {
+    background: var(--dark-gray);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+nav .user-info {
+    background: var(--white);
+    color: var(--black);
+    border: 2px solid var(--black);
+    cursor: default;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: var(--light-gray);
+    margin: 30px 0;
+}
+
+/* === PAGE HEADER === */
+.page-header {
+    margin-bottom: 35px;
+}
+
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--black);
+    flex-wrap: wrap;
+}
+
+.title-icon {
+    font-size: 1.1em;
+}
+
+.result-badge {
+    background: var(--black);
+    color: var(--white);
+    padding: 8px 20px;
+    border-radius: var(--radius);
+    font-size: 0.5em;
+    font-weight: 600;
+}
+
+/* === SEARCH SECTION === */
+.search-section {
+    margin-bottom: 40px;
+}
+
+.search-form {
+    background: var(--extra-light-gray);
+    padding: 35px;
+    border-radius: var(--radius);
+    border: 1px solid var(--light-gray);
+}
+
+.search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.search-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--black);
+}
+
+.search-icon {
+    font-size: 1.2em;
+}
+
+.btn-clear {
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-clear:hover {
+    background: var(--dark-gray);
+    transform: translateY(-2px);
+}
+
+.search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.label-icon {
+    font-size: 1.1em;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-sm);
+    font-size: 1em;
+    transition: var(--transition);
+    background: var(--white);
+    font-family: inherit;
+    color: var(--dark-gray);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--black);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000000' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+textarea::placeholder {
+    color: var(--medium-gray);
+}
+
+/* === AUTOCOMPLETE === */
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--black);
+    border-top: none;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    list-style: none;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+    display: none;
+    margin-top: -1px;
+}
+
+.suggestions-list.active {
+    display: block;
+}
+
+.suggestions-list li {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.suggestions-list li:last-child {
+    border-bottom: none;
+}
+
+.suggestions-list li:hover {
+    background: var(--extra-light-gray);
+    color: var(--black);
+}
+
+.suggestion-icon {
+    font-size: 1.1em;
+}
+
+/* === BUTTONS === */
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--black);
+    color: var(--white);
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: var(--dark-gray);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-primary:disabled {
+    background: var(--medium-gray);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-outline {
+    background: var(--white);
+    color: var(--black);
+    border: 2px solid var(--black);
+}
+
+.btn-outline:hover {
+    background: var(--black);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.btn-icon {
+    font-size: 1.1em;
+}
+
+/* === RECIPE CARDS === */
+.recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
+}
+
+.recipe-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--light-gray);
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--black);
+}
+
+.recipe-image {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: var(--extra-light-gray);
+}
+
+.recipe-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.recipe-card:hover .recipe-image img {
+    transform: scale(1.05);
+}
+
+.recipe-image.no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-image-placeholder {
+    font-size: 4em;
+    opacity: 0.2;
+    color: var(--medium-gray);
+}
+
+.difficulty-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 6px 16px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--black);
+    color: var(--white);
+}
+
+.difficulty-easy {
+    background: var(--dark-gray);
+}
+
+.difficulty-medium {
+    background: var(--black);
+}
+
+.difficulty-hard {
+    background: var(--black);
+}
+
+.recipe-content {
+    padding: 25px;
+}
+
+.recipe-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.recipe-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--extra-light-gray);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--dark-gray);
+    border: 1px solid var(--light-gray);
+}
+
+.meta-icon {
+    font-size: 1.1em;
+}
+
+.recipe-description {
+    margin: 15px 0;
+    color: var(--medium-gray);
+    line-height: 1.7;
+}
+
+.ingredients-preview {
+    margin: 20px 0;
+}
+
+.ingredients-preview strong {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--black);
+    font-size: 0.95em;
+}
+
+.ingredient-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ingredient-tag {
+    background: var(--black);
+    color: var(--white);
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.ingredient-tag.more {
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--black);
+}
+
+.recipe-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.btn-action {
+    flex: 1;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 0.9em;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-edit {
+    background: var(--white);
+    color: var(--black);
+    border: 2px solid var(--black);
+}
+
+.btn-edit:hover {
+    background: var(--black);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background: var(--black);
+    color: var(--white);
+}
+
+.btn-delete:hover {
+    background: var(--dark-gray);
+    transform: translateY(-2px);
+}
+
+.action-icon {
+    font-size: 1.1em;
+}
+
+/* === LOADING & EMPTY STATES === */
+.loading-spinner {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--light-gray);
+    border-top-color: var(--black);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    color: var(--medium-gray);
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty-icon {
+    font-size: 5em;
+    margin-bottom: 20px;
+    opacity: 0.2;
+    color: var(--medium-gray);
+}
+
+.empty-state h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: var(--black);
+}
+
+.empty-state p {
+    color: var(--medium-gray);
+    font-size: 1.1em;
+    margin-bottom: 25px;
+}
+
+.error-state {
+    text-align: center;
+    padding: 80px 20px;
+    background: var(--extra-light-gray);
+    border-radius: var(--radius);
+    border: 1px solid var(--light-gray);
+}
+
+.error-icon {
+    font-size: 5em;
+    margin-bottom: 20px;
+    color: var(--black);
+}
+
+.error-state h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: var(--black);
+}
+
+.error-state p {
+    color: var(--medium-gray);
+    font-size: 1.1em;
+}
+
+/* === MESSAGES === */
+.message {
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 25px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.message.success,
+.success-message {
+    background: var(--extra-light-gray);
+    color: var(--black);
+    border: 2px solid var(--black);
+}
+
+.message.error,
+.error-message {
+    background: var(--black);
+    color: var(--white);
+    border: 2px solid var(--black);
+}
+
+/* === FOOTER === */
+footer {
+    text-align: center;
+    color: var(--medium-gray);
+    padding: 30px 0;
+    font-size: 0.95em;
+    margin-top: 40px;
+    border-top: 1px solid var(--light-gray);
+}
+
+/* === AUTH PAGES === */
+.login-container,
+.register-container,
+.logout-container,
+.password-container {
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 40px;
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--light-gray);
+    box-shadow: var(--shadow);
+}
+
+.login-container h2,
+.register-container h2,
+.logout-container h2,
+.password-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--black);
+    font-weight: 700;
+}
+
+.btn-login,
+.btn-register,
+.btn-logout,
+.btn-change {
+    width: 100%;
+    padding: 14px;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-login:hover,
+.btn-register:hover,
+.btn-logout:hover,
+.btn-change:hover {
+    background: var(--dark-gray);
+    transform: translateY(-2px);
+}
+
+.btn-login:disabled,
+.btn-register:disabled,
+.btn-change:disabled {
+    background: var(--medium-gray);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-cancel {
+    background: var(--white);
+    color: var(--black);
+    border: 2px solid var(--black);
+}
+
+.btn-cancel:hover {
+    background: var(--extra-light-gray);
+}
+
+.links {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--medium-gray);
+}
+
+.links a {
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.password-strength {
+    height: 4px;
+    margin-top: 8px;
+    border-radius: 2px;
+    transition: var(--transition);
+    background: var(--light-gray);
+}
+
+.strength-weak {
+    background: var(--dark-gray);
+    width: 33%;
+}
+
+.strength-medium {
+    background: var(--medium-gray);
+    width: 66%;
+}
+
+.strength-strong {
+    background: var(--black);
+    width: 100%;
+}
+
+.password-requirements {
+    background: var(--extra-light-gray);
+    padding: 15px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+    border: 1px solid var(--light-gray);
+}
+
+.password-requirements h4 {
+    margin: 0 0 10px 0;
+    color: var(--black);
+    font-size: 0.95em;
+}
+
+.password-requirements ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 0.9em;
+}
+
+.password-requirements li {
+    margin: 5px 0;
+    color: var(--medium-gray);
+}
+
+.requirement-met {
+    color: var(--black);
+    font-weight: 600;
+}
+
+.requirement-not-met {
+    color: var(--medium-gray);
+}
+
+.user-info {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--medium-gray);
+    font-size: 0.95em;
+}
+
+.user-info strong {
+    color: var(--black);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: var(--medium-gray);
+    font-size: 0.9em;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .page-title {
+        font-size: 1.6em;
+    }
+    
+    .search-form {
+        padding: 25px;
+    }
+    
+    .search-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .recipes-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    nav {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    nav a,
+    nav .user-info {
+        text-align: center;
+    }
+    
+    .recipe-actions {
+        flex-direction: column;
+    }
+    
+    .search-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-clear {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    header h1 {
+        font-size: 1.6em;
+    }
+    
+    .recipe-image {
+        height: 180px;
+    }
+    
+    .login-container,
+    .register-container,
+    .logout-container,
+    .password-container {
+        padding: 25px;
+    }
+}
+
+/* === UTILITY CLASSES === */
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-group .btn {
+    flex: 1;
+    min-width: 150px;
+}
+
+@media (max-width: 480px) {
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+}
+
+/* Ensure the delete <button> inside the POST form matches the .btn-action <a> styling */
+.recipe-actions form {
+    flex: 1;
+}
+.recipe-actions form .btn-action {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
 }
